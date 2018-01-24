@@ -1,0 +1,62 @@
+<h3>List of books</h3>
+<!-- <div ng-repeat="item in list">
+    <a href="/#/{{item.id}}">{{item.data}}</a>
+</div> -->
+
+<table>
+  <thead>
+	<tr>
+		<td>Id</td>
+ 		<td>Nombre</td>
+ 		<td>Autor</td>
+	</tr>
+  </thead>
+  <tr ng-repeat="item in list | orderBy: autor">
+  	<td><a href="/#/{{item.id}}">{{item.id}}</a></td>
+    <td>{{item.nombre}}</td>
+    <td>{{item.autor}}</td>
+  </tr>
+</table>
+
+<h3>Search book by</h3>
+<div>
+	<label>
+	  <input type="radio" ng-model="filtro" value="nombre">Nombre
+	</label><br/>
+	<label>
+	  <input type="radio" ng-model="filtro" value="autor">Autor
+	</label><br/>
+	<input id="busqueda" ng-model="form.busqueda"/>
+	<button ng-click="search(filtro)">Busqueda</button>
+</div>
+
+<h3>New book</h3>
+<div>
+    <div>
+        <label for="id">id</label>
+        <input id="id" ng-model="form.id"/>
+    </div>
+<!--     <div>
+        <label for="data">data</label>
+        <input id="data" ng-model="form.data"/>
+    </div>
+ -->    
+     <div>
+        <label for="nombre">Nombre</label>
+        <input id="nombre" ng-model="form.nombre"/>
+    </div>
+    <div>
+        <label for="autor">Autor</label>
+        <input id="autor" ng-model="form.autor"/>
+    </div>
+     <div>
+        <label for="anyoPub">Anyo publicacion</label>
+        <input id="anyoPub" ng-model="form.anyoPub"/>
+    </div>
+    <div>
+        <label for="genero">Genero</label>
+        <input id="genero" ng-model="form.genero"/>
+    </div>    
+    
+    <button ng-click="save()">Save</button>
+</div>
