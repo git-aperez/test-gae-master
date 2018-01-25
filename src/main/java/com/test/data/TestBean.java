@@ -5,13 +5,11 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
-/**
- * Test data bean
- */
 @Entity
 @Cache
-@ApiModel("Test object")
+@ApiModel("Objeto libro")
 public class TestBean {
 
     @Id
@@ -33,6 +31,7 @@ public class TestBean {
         this.data = data;
     }
 
+    @ApiModelProperty(value = "Identificador del libro", dataType = "Long")
     public Long getId() {
         return id;
     }
@@ -41,6 +40,7 @@ public class TestBean {
         this.id = id;
     }
 
+    @ApiModelProperty(value = "Titulo del libro", dataType = "String")
 	public String getNombre() {
 		return nombre;
 	}
@@ -49,6 +49,7 @@ public class TestBean {
 		this.nombre = nombre;
 	}
 
+	@ApiModelProperty(value = "Autor del libro", dataType = "String")
 	public String getAutor() {
 		return autor;
 	}
@@ -57,6 +58,7 @@ public class TestBean {
 		this.autor = autor;
 	}
 
+	@ApiModelProperty(value = "Anyo de publicacion del libro", dataType = "Integer")
 	public Integer getAnyoPub() {
 		return anyoPub;
 	}
@@ -65,6 +67,7 @@ public class TestBean {
 		this.anyoPub = anyoPub;
 	}
 
+	@ApiModelProperty(value = "Genero del libro", dataType = "String")
 	public String getGenero() {
 		return genero;
 	}
@@ -72,6 +75,4 @@ public class TestBean {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-    
-    
 }

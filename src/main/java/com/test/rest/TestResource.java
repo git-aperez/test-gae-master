@@ -4,13 +4,16 @@ import com.test.dao.TestBeanDAO;
 import com.test.data.TestBean;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Path("/test")
 @Produces("application/json;charset=utf-8")
-@Api(value = "test", description = "Test service")
+@Api(value = "Libros", description = "Servicio de libros")
 public class TestResource {
 
     private TestBeanDAO testBeanDAO;
@@ -20,15 +23,25 @@ public class TestResource {
     }
 
     @GET
-    @ApiOperation("list books objects")
+    @ApiOperation(value = "Devuelve la lista de libros", notes = "Devuelve una lista completa de libros con todos los campos de la tabla.", response = TestBean.class, responseContainer = "List")
+    @ApiResponses(value = { 
+	    @ApiResponse(code = 200, message = "Busqueda exitosa de los libros"),
+	    @ApiResponse(code = 404, message = "Libro no encontrado"),
+	    @ApiResponse(code = 500, message = "Internal server error")
+    })
     public Response list() {
         return Response.ok(this.testBeanDAO.list()).build();
     }
 
     @GET
     @Path("/{id}")
-    @ApiOperation("get a book object by id")
-    public Response get(@PathParam("id") Long id) {
+    @ApiOperation(value = "Devuelve un libro concreto", notes = "Devuelve el nombre y el autor de un libro concreto.", response = TestBean.class)
+    @ApiResponses(value = { 
+    	    @ApiResponse(code = 200, message = "Busqueda exitosa del libro"),
+    	    @ApiResponse(code = 404, message = "Libro no encontrado"),
+    	    @ApiResponse(code = 500, message = "Internal server error")
+        })
+    public Response get(@ApiParam(name = "id", value = "Identificador del libro", required = true) @PathParam("id") Long id) {
         TestBean bean = this.testBeanDAO.get(id);
         if (bean == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -38,28 +51,25 @@ public class TestResource {
 
     @GET
     @Path("/{filtro}/{valor}")
-    @ApiOperation("search book by autor or by nombre")
-    public Response list(@PathParam("filtro") String filtro, @PathParam("valor") String valor) {
+    @ApiOperation(value = "Busca libros por nombre o por autor", notes = "Devuelve una lista de libros cuya busqueda ha sido filtrada por el nombre o por el autor.", response = TestBean.class)
+    @ApiResponses(value = { 
+    	    @ApiResponse(code = 200, message = "Busqueda exitosa del libro"),
+    	    @ApiResponse(code = 404, message = "Libro no encontrado"),
+    	    @ApiResponse(code = 500, message = "Internal server error")
+        })
+    public Response list(@ApiParam(name = "filtro", value = "Campo por el que se filtra la busqueda del libro, puede ser el nombre o el autor", required = true) @PathParam("filtro") String filtro, 
+    		@ApiParam(name = "valor", value = "Valor que se utiliza para la el filtro de la busqueda del libro", required = true) @PathParam("valor") String valor) {
         return Response.ok(this.testBeanDAO.list(filtro, valor)).build();
     }
     
-//    @GET
-//    @Path("/a/{autor}")
-//    @ApiOperation("search by autor")
-//    public Response list(@PathParam("autor") String autor) {
-//        return Response.ok(this.testBeanDAO.list(autor)).build();
-//    }
-
-//    @GET
-//    @Path("/t/{nombre}")
-//    @ApiOperation("search by nombre")
-//    public Response list(@PathParam("nombre") String nombre) {
-//        return Response.ok(this.testBeanDAO.list(nombre)).build();
-//    }
-    
     @POST
     @Consumes("application/json;charset=utf-8")
-    @ApiOperation("save book object")
+    @ApiOperation(value = "Graba un libro concreto", notes = "Graba en la BBDD un libro con el nombre, el autor, el anyo de publicacion y el genero.", response = TestBean.class)
+    @ApiResponses(value = { 
+    	    @ApiResponse(code = 200, message = "Grabado exitoso del libro"),
+    	    @ApiResponse(code = 404, message = "Libro no encontrado"),
+    	    @ApiResponse(code = 500, message = "Internal server error")
+        })
     public Response save(TestBean bean) {
         this.testBeanDAO.save(bean);
         return Response.ok().build();
@@ -67,8 +77,13 @@ public class TestResource {
 
     @DELETE
     @Path("/{id}")
-    @ApiOperation("delete book object by id")
-    public Response delete(@PathParam("id") Long id) {
+    @ApiOperation(value = "Elimina un libro concreto", notes = "Elimina un libro concreto de la BBDD.", response = TestBean.class)
+    @ApiResponses(value = { 
+    	    @ApiResponse(code = 200, message = "Eliminacion exitosa del libro"),
+    	    @ApiResponse(code = 404, message = "Libro no encontrado"),
+    	    @ApiResponse(code = 500, message = "Internal server error")
+        })
+    public Response delete(@ApiParam(name = "id", value = "Identificador del libro", required = true) @PathParam("id") Long id) {
         TestBean bean = this.testBeanDAO.get(id);
         if (bean == null) {
             return Response.status(Response.Status.NOT_FOUND).build();

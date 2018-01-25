@@ -8,19 +8,21 @@
 <table>
   <thead>
 	<tr>
-		<td name="Id"></td>
-		<td name="Data"></td>
- 		<td name="Nombre"></td>
- 		<td name="Autor"></td>
+		<td name="Id">Id</td>
+ 		<td name="Nombre">Nombre</td>
+ 		<td name="Autor">Autor</td>
+ 		<td name="AnyoPub">Anyo publicacion</td>
+ 		<td name="Genero">Genero</td>
 	</tr>
   </thead>
   <tr>
   	<td>{{detail.id}}</td>
-  	<td>{{detail.data}}</td>
     <td>{{detail.nombre}}</td>
     <td>{{detail.autor}}</td>
+    <td>{{detail.anyoPub}}</td>
+    <td>{{detail.genero}}</td>
   </tr>
 </table>
-    
+    <br/>
     <button ng-click="borrado()">Borrar</button>
 </div>
